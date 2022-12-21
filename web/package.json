@@ -16,8 +16,8 @@
     "web-vitals": "^1.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build"
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
   },
   "eslintConfig": {
     "extends": [
