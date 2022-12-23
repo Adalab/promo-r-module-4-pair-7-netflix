@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const movies = require("./data/movies.json");
+const users = require("./data/users.json");
 
 // create and config server
 const server = express();
@@ -14,6 +15,28 @@ server.get("/movies", (req, res) => {
   };
 
   res.json(response);
+});
+
+server.post("/login", (req, res) => {
+  const find = users.find((user) => user.email === req.body.email);
+  let userResponse = "";
+  console.log("hola login");
+  console.log(req.body.email);
+  //console.log(users);
+  console.log(find);
+  if (find === undefined) {
+    userResponse = {
+      success: false,
+      errorMessage: "Usuaria/o no encontrada/o",
+    };
+  } else {
+    userResponse = {
+      success: true,
+      userId: find.id,
+    }
+  }
+
+  res.json(userResponse);
 });
 
 // init express aplication
