@@ -7,6 +7,7 @@ const users = require("./data/users.json");
 const server = express();
 server.use(cors());
 server.use(express.json());
+server.set('view engine', 'ejs');
 
 server.get("/movies", (req, res) => {
   const response = {
@@ -17,6 +18,18 @@ server.get("/movies", (req, res) => {
   res.json(response);
 });
 
+//conseguir id de la película que se va a renderizar 
+// pedir soporte, qué pelicula hay que encontar para consolear
+server.get('/movie/:id', (req, res) => { 
+console.log(req.params)
+ const foundMovie = movies.find((movie)=> 
+ movie.id === req.params.id); 
+ res.render('movie', foundMovie)
+
+res.json(foundMovie);
+});
+
+//endpoint de users para login
 server.post("/login", (req, res) => {
   const find = users.find((user) => user.email === req.body.email);
   let userResponse = "";
