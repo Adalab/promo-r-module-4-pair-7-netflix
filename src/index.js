@@ -22,11 +22,11 @@ server.get("/movies", (req, res) => {
 // pedir soporte, qué pelicula hay que encontar para consolear
 server.get('/movie/:id', (req, res) => { 
 console.log(req.params)
- const foundMovie = movies.find((movie)=> 
- movie.id === req.params.id); 
- res.render('movie', foundMovie)
+//HE QUITADO UNO DE LOS IGUALES PORQUE LO QUE LLEGA POR REQ.PARAMS.ID ES UN "1" string y lo que tenemos en movies.json es un 1 entero (integer), hay que poner 2 iguales (compara solo valor) porque si ponemos 3 compara tipo y valor. O HACER parseInt.
+ const foundMovie = movies.find((movie)=> movie.id == req.params.id); 
+ console.log(foundMovie);
+ res.render('movie', foundMovie);
 
-res.json(foundMovie);
 });
 
 //endpoint de users para login
@@ -63,3 +63,6 @@ server.use(express.static(staticServer));
 
 const staticServerImg = "./src/public-movies-images"; // En esta carpeta ponemos los ficheros estáticos
 server.use(express.static(staticServerImg));
+
+const staticServerStyles = "./src/public-styles"; // En esta carpeta ponemos los ficheros estáticos
+server.use(express.static(staticServerStyles));
