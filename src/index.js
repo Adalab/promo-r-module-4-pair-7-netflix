@@ -3,6 +3,8 @@ const cors = require("cors");
 const movies = require("./data/movies.json");
 const users = require("./data/users.json");
 
+
+
 // create and config server
 const server = express();
 server.use(cors());
@@ -64,5 +66,4 @@ server.use(express.static(staticServer));
 const staticServerImg = "./src/public-movies-images"; // En esta carpeta ponemos los ficheros estáticos
 server.use(express.static(staticServerImg));
 
-const staticServerStyles = "./src/public-styles"; // En esta carpeta ponemos los ficheros estáticos
-server.use(express.static(staticServerStyles));
+
