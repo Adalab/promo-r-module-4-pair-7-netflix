@@ -40,7 +40,7 @@ console.log(req.params)
 server.post("/login", (req, res) => {
   const query = db.prepare("SELECT * FROM users WHERE email = ? AND password = ?");
   const user = query.get(req.body.email, req.body.password);
-  
+
   if (user === undefined) {
     userResponse = {
       success: false,
@@ -55,6 +55,12 @@ server.post("/login", (req, res) => {
 
   res.json(userResponse);
 });
+
+
+server.post("/sign-up", (req, res) => {
+
+}
+)
 
 // init express aplication
 const serverPort = 4000;
