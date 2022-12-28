@@ -17,22 +17,20 @@ const sendLoginToApi = data => {
 };
 
 // signup
-
 const sendSingUpToApi = data => {
-  console.log('Se están enviando datos al signup:', data);
-  // CAMBIA ESTE FETCH PARA QUE APUNTE A UN ENDPOINT DE TU SERVIDOR, PIENSA SI DEBE SER GET O POST, PIENSA QUÉ DATOS DEBES ENVIAR, ETC
-  return fetch('http://localhost:4000/sign-up', {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then(response => response.json())
-    .then (data => {
-     return data;
-    })
-};
+  console.log("enviando datos a registro", data);
+return fetch("http://localhost:4000/sign-up", {
+method: "POST", // Para enviar datos
+body: JSON.stringify(data),
+headers: {
+"Content-Type": "application/json",
+},
+})
+.then((response) => response.json())
+.then((data) => {
+return data;
+});
+}; 
     
 
 // profile
