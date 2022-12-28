@@ -4,6 +4,7 @@ const movies = require("./data/movies.json");
 const users = require("./data/users.json");
 const Database = require("better-sqlite3");
 
+//Url de la base de datos
 const db = Database("./src/db/database.db", { verbose: console.log });
 
 // create and config server
@@ -12,6 +13,8 @@ server.use(cors());
 server.use(express.json());
 server.set("view engine", "ejs");
 
+////////////ENDPOINTS
+// Endpoint para pedir todas las peliculas 
 server.get("/movies", (req, res) => {
   const query = db.prepare("SELECT * FROM movies");
   const movies = query.all();
@@ -24,17 +27,17 @@ server.get("/movies", (req, res) => {
   res.json(response);
 });
 
-//conseguir id de la película que se va a renderizar
-// pedir soporte, qué pelicula hay que encontar para consolear
+
+ // Endpoint para obtener el id de la url de cada pelicula
 server.get("/movie/:id", (req, res) => {
   console.log(req.params);
-  //HE QUITADO UNO DE LOS IGUALES PORQUE LO QUE LLEGA POR REQ.PARAMS.ID ES UN "1" string y lo que tenemos en movies.json es un 1 entero (integer), hay que poner 2 iguales (compara solo valor) porque si ponemos 3 compara tipo y valor. O HACER parseInt.
+ 
   const foundMovie = movies.find((movie) => movie.id == req.params.id);
   console.log(foundMovie);
   res.render("movie", foundMovie);
 });
 
-//endpoint de users para login
+// Endpoint de users para login
 server.post("/login", (req, res) => {
   const query = db.prepare(
     "SELECT * FROM users WHERE email = ? AND password = ?"
@@ -56,6 +59,7 @@ server.post("/login", (req, res) => {
   res.json(userResponse);
 });
 
+// Endpoint de users para registrarse
 server.post("/sign-up", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -63,20 +67,25 @@ server.post("/sign-up", (req, res) => {
   const query = db.prepare("INSERT INTO users (email, password) VALUES (?, ?)");
   const newUser = query.run(email, password);
 
+
   res.json({
     "success": true,
     "userId": newUser.lastInsertRowid
   });
 });
 
-// init express aplication
+// init express aplication, para que arranque el servidor en ese puerto
 const serverPort = 4000;
 server.listen(serverPort, () => {
   console.log(`Server listening at http://localhost:${serverPort}`);
 });
 
-const staticServer = "./src/public-react"; // En esta carpeta ponemos los ficheros estáticos
+
+////////////SERVIDORES ESTÁTICOS
+// Servidor para que se muestren las películas en el back
+const staticServer = "./src/public-react";
 server.use(express.static(staticServer));
 
-const staticServerImg = "./src/public-movies-images"; // En esta carpeta ponemos los ficheros estáticos
+// Servidor para que se muestren las imágenes en el back
+const staticServerImg = "./src/public-movies-images"; 
 server.use(express.static(staticServerImg));

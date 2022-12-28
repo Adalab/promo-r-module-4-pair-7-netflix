@@ -43,6 +43,8 @@ const App = () => {
     });
   }, [allMoviesOptionGender, allMoviesOptionSort]);
 
+
+
   /*
   useEffect: obtener el perfil de la usuaria.
   Se ejecuta cuando userId cambian de valor, es decir, cuando pasa de un string vacío a un strin relleno con el id de la usuaria.
@@ -153,8 +155,8 @@ const App = () => {
     }
   };
 
-  // render
 
+  // render
   return (
     <>
       {/* Le paso Header un booleano indicando si la usuaria está o no logada.
