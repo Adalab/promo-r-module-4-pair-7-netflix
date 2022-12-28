@@ -2,8 +2,9 @@ const express = require("express");
 const cors = require("cors");
 const movies = require("./data/movies.json");
 const users = require("./data/users.json");
+const Database = require("better-sqlite3")
 
-
+const db = Database("./src/db/database.db" , {verbose: console.log});
 
 // create and config server
 const server = express();
@@ -12,12 +13,16 @@ server.use(express.json());
 server.set('view engine', 'ejs');
 
 server.get("/movies", (req, res) => {
-  const response = {
-    success: true,
-    movies: movies,
-  };
+ const query = db.prepare("SELECT * FROM movies");
+ const movies = query.all();
 
-  res.json(response);
+const response = { 
+  success: true, 
+  movies: movies
+ };
+
+
+  res.json(response)
 });
 
 //conseguir id de la película que se va a renderizar 
@@ -33,13 +38,10 @@ console.log(req.params)
 
 //endpoint de users para login
 server.post("/login", (req, res) => {
-  const find = users.find((user) => user.email === req.body.email);
-  let userResponse = "";
-  console.log("hola login");
-  console.log(req.body.email);
-  //console.log(users);
-  console.log(find);
-  if (find === undefined) {
+  const query = db.prepare("SELECT * FROM users WHERE email = ? AND password = ?");
+  const user = query.get(req.body.email, req.body.password);
+  
+  if (user === undefined) {
     userResponse = {
       success: false,
       errorMessage: "Usuaria/o no encontrada/o",
@@ -47,7 +49,7 @@ server.post("/login", (req, res) => {
   } else {
     userResponse = {
       success: true,
-      userId: find.id,
+      userId: user.id,
     }
   }
 
