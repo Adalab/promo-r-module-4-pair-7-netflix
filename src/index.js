@@ -47,7 +47,7 @@ server.post("/login", (req, res) => {
   if (user === undefined) {
     userResponse = {
       success: false,
-      errorMessage: "Usuaria/o no encontrada/o",
+      errorMessage: "El usuario y/o la contraseña no coinciden",
     };
   } else {
     userResponse = {
